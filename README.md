@@ -1,2 +1,2 @@
 # MirageMulti
-VR multi-player application research for MirageSolo
+VR multi-player research application for MirageSolo
