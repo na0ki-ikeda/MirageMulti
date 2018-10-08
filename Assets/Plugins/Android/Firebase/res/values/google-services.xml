@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="firebase_database_url" translatable="false">https://miragemulti-8cc32.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">165456337540</string>
+  <string name="google_storage_bucket" translatable="false">miragemulti-8cc32.appspot.com</string>
+  <string name="project_id" translatable="false">miragemulti-8cc32</string>
+  <string name="google_api_key" translatable="false">AIzaSyDnESW2vxo00q9VrpO4qR9t_ZRpGushUFM</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDnESW2vxo00q9VrpO4qR9t_ZRpGushUFM</string>
+  <string name="google_app_id" translatable="false">1:165456337540:android:33cf0ae60ce1dc88</string>
+  <string name="default_web_client_id" translatable="false">165456337540-0n3226887506q5f6e6b66p07j7vkm306.apps.googleusercontent.com</string>
+</resources>
