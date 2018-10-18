@@ -34,3 +34,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Settings
+TwitterKitSettings.asset
+google-services.json
+google-services-desktop.json
+PhotonServerSettings.asset
