@@ -43,8 +43,8 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
 
     #endregion
 
-    RoomInfo[] RoomList_ { get; set; } = null;
-    float RoomJoiningTimeout_ { get; set; } = 0f;
+    RoomInfo[] RoomList_ = null;
+    float RoomJoiningTimeout_ = 0f;
 
     public bool RoomJoining { get; private set; } = false;
 
