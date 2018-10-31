@@ -8,6 +8,8 @@
 // Framework includes
 #import <AVFoundation/AVAudioSession.h>
 
+#define SAMPLE_RATE 48000
+
 #define XThrowIfError(error, operation)                                                 \
 do {                                                                                    \
 if (error) {                                                                            \
@@ -73,9 +75,12 @@ bool Photon_Audio_In_Read(Photon_Audio_In* handle, float* buf, int len) {
     } else {
         memcpy(buf, cd.ringBuffer + pos, len * sizeof(float));
     }
-    // tone test
-    //for(int i = 0;i < len;i++) buf[i] = sin((cd.ringReadPos + i) / 16.0f)/4;
     cd.ringReadPos += len;
+    
+    // tone test
+    //    static int tonePos = 0;
+    //    for(int i = 0;i < len;i++) buf[i] = sin((tonePos++) / 16.0f)/4;
+    
     return true;
 }
 
@@ -237,8 +242,8 @@ static OSStatus	performRender (void                         *inRefCon,
         XThrowIfError((OSStatus)error.code, "couldn't set session's I/O buffer duration");
         
         // set the session's sample rate
-        [sessionInstance setPreferredSampleRate:44100 error:&error];
-        XThrowIfError((OSStatus)error.code, "couldn't set session's preferred sample rate");
+        //        [sessionInstance setPreferredSampleRate:44100 error:&error];
+        //        XThrowIfError((OSStatus)error.code, "couldn't set session's preferred sample rate");
         
         // add interruption handler
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -298,9 +303,8 @@ static OSStatus	performRender (void                         *inRefCon,
         XThrowIfError(AudioUnitSetProperty(cd.rioUnit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, 0, &one, sizeof(one)), "could not enable output on AURemoteIO");
         
         // Explicitly set the input and output client formats
-        // sample rate = 44100, num channels = 1, format = 32 bit floating point
         
-        int sampleRate = 44100;
+        int sampleRate = SAMPLE_RATE;
         int channels = 1;
         AudioStreamBasicDescription ioFormat;
         ioFormat.mSampleRate = sampleRate;
@@ -312,6 +316,9 @@ static OSStatus	performRender (void                         *inRefCon,
         ioFormat.mBitsPerChannel = sizeof(float) * 8;
         ioFormat.mReserved = 0;
         
+        XThrowIfError(AudioUnitSetProperty(cd.rioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &ioFormat, sizeof(ioFormat)), "couldn't set input stream format AURemoteIO");
+        
+        XThrowIfError(AudioUnitSetProperty(cd.rioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &ioFormat, sizeof(ioFormat)), "couldn't set output stream format AURemoteIO");
         
         // Set the MaximumFramesPerSlice property. This property is used to describe to an audio unit the maximum number
         // of samples it will be asked to produce on any single given call to AudioUnitRender

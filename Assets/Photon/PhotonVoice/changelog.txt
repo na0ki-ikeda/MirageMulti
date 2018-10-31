@@ -1,0 +1,8 @@
+Photon Voice Change Log
+
+v2.0 (October 10th, 2018)
+    PUN2: v2.2.1 (3cd5540)
+    PhotonVoiceApi: revision 4823
+    Initial release of the new major Photon Voice version 2.
+    Work-in-progress documentation: https://doc.photonengine.com/en-us/voice/v2
+    PhotonVoice reference API: https://doc-api.photonengine.com/en/voice/v2

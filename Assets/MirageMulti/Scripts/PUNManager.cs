@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// PhotonNetworkのラッパークラス、ここ以外でPhotonNetworkインスタンスを呼ぶのは禁止
 /// </summary>
-public class PUNManager : SingletonMonoBehaviour<PUNManager>
+public class PUNManager : SingletonPunBehaviour<PUNManager>
 {
     #region SerializedField definition
 
@@ -43,7 +45,7 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
 
     #endregion
 
-    RoomInfo[] RoomList_ = null;
+    List<RoomInfo> RoomList_ = null;
     float RoomJoiningTimeout_ = 0f;
 
     public bool RoomJoining { get; private set; } = false;
@@ -54,10 +56,11 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
         DontDestroyOnLoad(gameObject);
 
         //サーバへ接続(自動でロビーまで接続される)
-        PhotonNetwork.ConnectUsingSettings(NetworkVersion_);
+        PhotonNetwork.GameVersion = "0.1";
+        PhotonNetwork.ConnectUsingSettings();
     }
 
-    void OnJoinedLobby()
+    public override void OnJoinedLobby()
     {
         //マスタークライアントになる際は部屋を作成
         if (WiiBeMasterClient_)
@@ -66,15 +69,15 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
         }
     }
 
-    void OnReceivedRoomListUpdate()
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        RoomList_ = PhotonNetwork.GetRoomList();
+        RoomList_ = roomList;
     }
 
     void Update()
     {
         //マスタークライアントの場合は処理不要
-        if (WiiBeMasterClient_ || PhotonNetwork.inRoom) return;
+        if (WiiBeMasterClient_ || PhotonNetwork.InRoom) return;
 
         //タイムアウト
         if (RoomJoining && Time.timeSinceLevelLoad > RoomJoiningTimeout_)
@@ -85,7 +88,7 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
         }
 
         //ルームが取得できていれば接続
-        if (!RoomJoining && RoomList_ != null && RoomList_.Length > 0)
+        if (!RoomJoining && RoomList_ != null && RoomList_.Count > 0)
         {
             RoomJoining = true;
             RoomJoiningTimeout_ = Time.timeSinceLevelLoad + 10.0f;//10秒タイムアウト
@@ -105,7 +108,7 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
     void OnGUI()
     {
         // Photonのステータスをラベルで表示させています
-        GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+        GUILayout.Label(PhotonNetwork.NetworkClientState.ToString());
     }
 
     /// <summary>
@@ -114,7 +117,7 @@ public class PUNManager : SingletonMonoBehaviour<PUNManager>
     /// <returns></returns>
     public bool IsRoomJoined()
     {
-        return PhotonNetwork.inRoom;
+        return PhotonNetwork.InRoom;
     }
 
 }
