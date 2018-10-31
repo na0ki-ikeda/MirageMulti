@@ -40,3 +40,6 @@ TwitterKitSettings.asset
 google-services.json
 google-services-desktop.json
 PhotonServerSettings.asset
+
+# over 100MB
+Assets/Plugins/iOS/libwebrtc-audio.a
