@@ -22,9 +22,22 @@ public class DebugAndTest : MonoBehaviour
 
     }
 
+
+    [SerializeField]
+    GameObject avatarPrefab_;
+
+    [SerializeField]
+    bool playerSpawned_ = false;
+
     // Update is called once per frame
     void Update()
     {
+        if (!playerSpawned_ && PUNManager.Instance.IsRoomJoined())
+        {
+            Photon.Pun.PhotonNetwork.Instantiate(avatarPrefab_.name, Vector3.zero, Quaternion.identity);
 
+            //spawn
+            playerSpawned_ = true;
+        }
     }
 }
