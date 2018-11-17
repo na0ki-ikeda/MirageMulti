@@ -523,7 +523,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -851,6 +851,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec30ba1feb71da244b465ff902c215a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  avatarPrefab_: {fileID: 1707081951492854, guid: f10fd443cb4e1ba489c5fb77e184eeae,
+    type: 2}
+  playerSpawned_: 0
 --- !u!4 &1608076258
 Transform:
   m_ObjectHideFlags: 0

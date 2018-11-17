@@ -55,9 +55,15 @@ public class PUNManager : SingletonPunBehaviour<PUNManager>
         //Scene遷移で自動削除しない
         DontDestroyOnLoad(gameObject);
 
-        //サーバへ接続(自動でロビーまで接続される)
+        //サーバへ接続
         PhotonNetwork.GameVersion = "0.1";
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        //ロビーへ接続
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
@@ -92,6 +98,7 @@ public class PUNManager : SingletonPunBehaviour<PUNManager>
         {
             RoomJoining = true;
             RoomJoiningTimeout_ = Time.timeSinceLevelLoad + 10.0f;//10秒タイムアウト
+            PhotonNetwork.JoinRoom(RoomList_[0].Name);
             return;
         }
 
